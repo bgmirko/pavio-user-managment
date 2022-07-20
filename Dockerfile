@@ -8,5 +8,5 @@ RUN npm install
 
 EXPOSE 3000
 
-CMD ["node", "server.ts"]
+CMD ["node", "src/server.ts"]
 
