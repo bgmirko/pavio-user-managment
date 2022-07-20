@@ -7,7 +7,7 @@
   },
   "name": "assiement",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "server.ts",
   "devDependencies": {},
   "keywords": [],
   "author": "",
