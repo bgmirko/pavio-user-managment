@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import db from 'db'
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 
 const app = express()
 
