@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.0",
     "express": "^4.18.1",
     "node-postgres": "^0.6.2",
     "pg": "^8.7.3",
@@ -8,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && ttsc && cp -R ./src/db/migrations ./dist/db",
+    "build": "rm -rf dist && ttsc && cp -R ./src/db/migrations ./dist/db && cp -R ./src/views ./dist/views",
     "dev": "NODE_PATH=src nodemon --watch src -e ts --exec ts-node -r dotenv/config src/server.ts",
     "start": "node dist/server.js"
   },
