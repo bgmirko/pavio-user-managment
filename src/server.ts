@@ -1,9 +1,15 @@
-import express from 'express';
+import express, { Request, Response } from 'express'
+import db from 'db'
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
+
 const app = express()
 
+app.get('/', (req: Request, res: Response) => {
+    res.send('hello')
+})
 
-app.get('/', (req, res) => res.send('Hello World!'))
-
-app.listen(PORT, () => console.log(`Server up at http://localhost:${PORT}`))
+app.listen(PORT, () => {
+    console.log(`app runnin on port ${PORT}`)
+    db.runMigrations()
+})
