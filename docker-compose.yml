@@ -1,17 +1,21 @@
-version: '3.9'
-
+version: "3.8"
 services:
-  server:
+  app:
     build: .
     ports:
-      - '3000:3000'
+      - 3000:3000
+    env_file: .env
+    depends_on:
+      - db
   db:
-    image: 'postgres'
+    image: postgres
     environment:
-      POSTGRES_PASSWORD: 'mirkopassword'
-      POSTGRES_USER: 'postgresuser'
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
     volumes:
-      - data:/var/lib/postgresql/data
-
+      - db-data:/var/lib/postgresql/data
 volumes:
-  data:
+  db-data:

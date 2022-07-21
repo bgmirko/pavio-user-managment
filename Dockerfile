@@ -2,11 +2,13 @@ FROM node:16
 
 WORKDIR /app
 
-COPY ./ ./
+COPY . .
 
-RUN npm install
+RUN yarn install
+
+RUN yarn build
 
 EXPOSE 3000
 
-CMD ["node", "src/server.ts"]
+CMD ["yarn", "start"]
 
