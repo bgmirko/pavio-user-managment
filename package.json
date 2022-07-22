@@ -5,11 +5,12 @@
     "node-postgres": "^0.6.2",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "postgres-migrations": "^5.3.0"
+    "postgres-migrations": "^5.3.0",
+    "sequelize": "^6.21.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && ttsc && cp -R ./src/db/migrations ./dist/db && cp -R ./src/views ./dist/views",
+    "build": "rm -rf dist && ttsc && cp -R ./src/db/migrations ./dist/db && cp -R ./public ./dist/public",
     "dev": "NODE_PATH=src nodemon --watch src -e ts --exec ts-node -r dotenv/config src/server.ts",
     "start": "node dist/server.js"
   },
