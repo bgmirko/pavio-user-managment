@@ -2,15 +2,22 @@ import express, { Request, Response } from 'express';
 import { loginRoutes } from './routes/login';
 import path from 'path';
 import { sequelize } from "./database/sequelize";
+import { engine } from 'express-handlebars';
 
-
-const PORT = process.env.PORT || 3000;
 
 const app = express();
 
-const bodyParser = require('body-parser');
+const PORT = process.env.PORT || 3000;
 
 console.log(__dirname);
+
+app.engine('hbs', engine({ defaultLayout: false }));
+app.set('view engine', 'hbs');
+// were to find templates
+app.set('views', path.join(__dirname, '../', 'public', 'views'));
+
+const bodyParser = require('body-parser');
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(loginRoutes);
 
@@ -21,7 +28,7 @@ app.get('/', (req, res) => {
 })
 
 app.use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, '../', 'public', 'views', '404-page.html'));
+    res.status(404).render('404', { pageTitle: "Page Not Found" });
 })
 
 sequelize.sync({ force: true })

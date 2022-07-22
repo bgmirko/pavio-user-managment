@@ -12,7 +12,7 @@ router.get('/signup', (req, res) => {
 })
 
 router.get('/login-page', (req, res) => {
-    res.sendFile(path.join(__dirname, '../', 'public', 'views', 'login-page.html'));
+    res.render('login-page');
 })
 
 router.post('/login', (req, res) => {
