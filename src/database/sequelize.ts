@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 
-// TODO move to env file
-export const sequelize = new Sequelize('postgres', 'postgres', 'password', {
+export const sequelize = new Sequelize(process.env.DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
     dialect: 'postgres',
-    host: "db",
-    port: "5432"
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT)
 })
+
