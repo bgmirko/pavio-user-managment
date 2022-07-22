@@ -1,7 +1,9 @@
 import express from 'express'
 import path from 'path';
 // @ts-ignore
-import User from '../models/User'
+import User from '../models/userModel';
+// @ts-ignore
+import Like from '../models/likeModel';
 
 const router = express.Router();
 
@@ -18,7 +20,7 @@ router.post('/login', (req, res) => {
     res.send('<h1>Login user</h1>')
 })
 
-router.get('/update-password', (req, res) => {
+router.post('/update-password', (req, res) => {
     res.send('<h1>Update password</h1>')
 })
 
