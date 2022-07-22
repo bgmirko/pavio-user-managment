@@ -8,7 +8,7 @@ router.get('/signup', (req, res) => {
 })
 
 router.get('/login-page', (req, res) => {
-    res.sendFile(path.join(__dirname, '../', 'views', 'login-page.html'));
+    res.sendFile(path.join(__dirname, '../', 'public', 'views', 'login-page.html'));
 })
 
 router.post('/login', (req, res) => {
