@@ -1,5 +1,7 @@
 import express from 'express'
 import path from 'path';
+// @ts-ignore
+import User from '../models/User'
 
 const router = express.Router();
 

@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import db from 'db';
 import { loginRoutes } from './routes/login';
 import path from 'path';
 import { sequelize } from "./database/sequelize";
@@ -30,7 +29,6 @@ sequelize.sync({ force: true })
         console.log(result)
         app.listen(PORT, () => {
             console.log(`app runnin on port ${PORT}`)
-            // db.runMigrations()
         })
     })
     .catch(error => {
