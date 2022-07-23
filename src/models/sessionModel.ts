@@ -9,10 +9,10 @@ const Session = sequelize.define('Like', {
         foreignKey: true,
         allowNull: false,
     },
-    idLoggedIn: {
+    isLoggedIn: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
-    },
+    }
 },
     {
         underscored: true,

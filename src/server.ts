@@ -7,7 +7,9 @@ import { authRoutes } from './routes/auth';
 import { likesRoutes } from './routes/likes';
 import csrf from 'csurf';
 import flash from 'connect-flash';
+import cookieParser from "cookie-parser";
 import { setLocales } from 'middleware/setLocales';
+import { authenticateToken } from 'middleware/authenticateToken';
 
 const app = express();
 
@@ -24,9 +26,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false }));
 app.use(csrfProtection);
 app.use(flash());
+app.use(cookieParser());
 
 app.use(setLocales)
 
+app.use(authenticateToken);
 app.get('/', (req, res) => { res.redirect('/most-liked'); })
 app.use(authRoutes);
 app.use(likesRoutes);

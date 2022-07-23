@@ -1,6 +1,7 @@
 import User from '../models/userModel';
 import Session from '../models/sessionModel';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 
 export class AuthController {
@@ -37,7 +38,8 @@ export class AuthController {
         const user = await User.findOne({
             where: {
                 email
-            }
+            },
+            raw: true
         })
         if (!user) {
             return res.redirect("/login");
@@ -46,10 +48,13 @@ export class AuthController {
         if (isPasswordCorrect) {
             req.session.isLoggedIn = true;
             req.session.user = user;
+            const jwtExpirySeconds = 300;
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 300 })
             await Session.create({
                 userId: user.id,
-                idLoggedIn: true,
+                isLoggedIn: true,
             })
+            res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
             return res.redirect('/')
         } else {
             req.flash('error', 'Invalid email or password.')
