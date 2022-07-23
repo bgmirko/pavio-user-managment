@@ -9,8 +9,10 @@ import { AuthController } from '../controllers/authController'
 
 const router = express.Router();
 
-router.get('/signup', (req, res) => {
-    res.send('<h1>Sign up</h1>')
+// TODO see in this file where do we need async
+
+router.get('/signup', async (req, res, next) => {
+    const result = await AuthController.getSignup(req, res, next);
 })
 
 router.get('/login-page', (req, res) => {
