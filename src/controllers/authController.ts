@@ -1,4 +1,5 @@
 import User from '../models/userModel';
+import bcrypt from 'bcryptjs';
 
 
 export class AuthController {
@@ -32,6 +33,32 @@ export class AuthController {
         //     pageTitle: 'User Like Ranking',
         //     path: '/login'
         // })
+    }
+
+    static async postSignup(req, res, next) {
+        const email = req.body.email;
+        // TODO implement validation
+        const password = req.body.password;
+        console.log("password", password);
+        const confirmPassword = req.body.confirmPassword;
+        const user = await User.findOne({
+            where: {
+                email
+            }
+        })
+        if (user) {
+            return res.redirect('/signup');
+        }
+        const name = req.body.name;
+        const address = req.body.address;
+        const hashPassword = await bcrypt.hash(password, 12);
+        await User.create({
+            name,
+            email,
+            password: hashPassword,
+            address,
+        })
+        res.redirect("/login");
     }
 
 }

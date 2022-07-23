@@ -15,6 +15,10 @@ router.get('/signup', async (req, res, next) => {
     const result = await AuthController.getSignup(req, res, next);
 })
 
+router.post('/signup', async (req, res, next) => {
+    const result = await AuthController.postSignup(req, res, next);
+})
+
 router.get('/login-page', (req, res) => {
     res.render('login-page');
 })
