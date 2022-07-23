@@ -1,9 +1,10 @@
 import express from 'express';
-import { authRoutes } from './routes/auth';
 import path from 'path';
 import { sequelize } from "./database/sequelize";
 import { ErrorController } from 'controllers/errorController';
 import session from 'express-session';
+import { authRoutes } from './routes/auth';
+import { likesRoutes } from './routes/likes';
 
 const app = express();
 
@@ -17,10 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false }))
 
-app.get('/', (req, res) => {
-    res.send('home page')
-})
+app.get('/', (req, res) => { res.redirect('/most-liked'); })
 app.use(authRoutes);
+app.use(likesRoutes);
 app.use(ErrorController.get404);
 
 sequelize.sync()
