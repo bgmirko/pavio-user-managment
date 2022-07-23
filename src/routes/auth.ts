@@ -4,6 +4,8 @@ import path from 'path';
 import User from '../models/userModel';
 // @ts-ignore
 import Like from '../models/likeModel';
+import { Model } from 'sequelize/types';
+import { AuthController } from '../controllers/authController'
 
 const router = express.Router();
 
@@ -15,13 +17,12 @@ router.get('/login-page', (req, res) => {
     res.render('login-page');
 })
 
-router.post('/login', (req, res) => {
-    console.log(req.body);
-    res.send('<h1>Login user</h1>')
+router.get('/login', async (req, res, next) => {
+    const result = await AuthController.getLogin(req, res, next);
 })
 
 router.post('/update-password', (req, res) => {
     res.send('<h1>Update password</h1>')
 })
 
-export const loginRoutes = router
+export const authRoutes = router

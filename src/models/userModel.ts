@@ -19,14 +19,15 @@ const User = sequelize.define('User', {
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     address: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
     },
     likes: {
         type: Sequelize.INTEGER,
-        default: 0,
+        defaultValue: 0,
     }
 },
     {
@@ -45,4 +46,4 @@ User.associate = function (models) {
     })
 }
 
-module.exports = User;
+export default User;
