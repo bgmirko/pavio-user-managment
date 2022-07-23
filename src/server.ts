@@ -10,6 +10,7 @@ import flash from 'connect-flash';
 import cookieParser from "cookie-parser";
 import { setLocales } from 'middleware/setLocales';
 import { authenticateToken } from 'middleware/authenticateToken';
+import Session from '../src/models/sessionModel'
 
 const app = express();
 
@@ -37,10 +38,12 @@ app.use(likesRoutes);
 app.use(ErrorController.get404);
 
 sequelize.sync()
-    .then(result => {
+    .then(async result => {
         app.listen(PORT, () => {
             console.log(`app running on port ${PORT}`)
         })
+        // clear table data on server restart
+        await Session.destroy({ truncate: true })
     })
     .catch(error => {
         console.log(error);

@@ -27,8 +27,13 @@ router.get('/login', async (req, res, next) => {
     const result = await AuthController.getLogin(req, res, next);
 })
 
+// TODO
 router.post('/update-password', (req, res) => {
     res.send('<h1>Update password</h1>')
+})
+
+router.post('/logout', async (req, res, next) => {
+    await AuthController.logoutUser(req, res, next);
 })
 
 export const authRoutes = router

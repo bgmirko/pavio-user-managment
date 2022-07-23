@@ -88,4 +88,16 @@ export class AuthController {
         res.redirect("/login");
     }
 
+    static async logoutUser(req, res, next) {
+        const userId = req.session?.user?.id;
+        if (!userId) return;
+        await Session.destroy({
+            where: {
+                userId,
+            }
+        })
+        req.session.destroy();
+        res.redirect("/");
+    }
+
 }
