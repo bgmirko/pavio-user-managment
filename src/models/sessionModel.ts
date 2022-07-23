@@ -19,8 +19,8 @@ const Session = sequelize.define('Like', {
         timestamps: true,
         charset: "utf8",
         collate: "utf8_unicode_ci",
-        tableName: "likes"
+        tableName: "session"
     }
 )
 
-module.exports = Session;
+export default Session;
