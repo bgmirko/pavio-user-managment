@@ -5,7 +5,7 @@ import User from '../models/userModel';
 // @ts-ignore
 import Like from '../models/likeModel';
 import { Model } from 'sequelize/types';
-import { AuthController } from '../controllers/authController'
+import { AuthController } from '../controllers/authController';
 
 const router = express.Router();
 

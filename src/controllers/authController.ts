@@ -5,25 +5,22 @@ import bcrypt from 'bcryptjs';
 
 export class AuthController {
     static async getLogin(req, res, next) {
-        console.log("get login", req.session.isLoggedIn);
-        console.log("session", req.session)
-        req.session.isLoggedIn = true;
-        // console.log(req.get('Cookie').split(';')[1].trim().split('=')[1]);
-        // return User.findOne({
-        //     where: id
-        // });
+        if (req.session.isLoggedIn) {
+            return res.redirect("/");
+        }
         res.render('login', {
             pageTitle: 'Login',
             path: '/login',
-            isAuthenticated: false
         })
     }
 
     static async getSignup(req, res, next) {
+        if (req.session.isLoggedIn) {
+            return res.redirect("/");
+        }
         res.render('signup', {
             path: '/signup',
-            pageTitle: 'Signup',
-            isAuthenticated: false
+            pageTitle: 'Signup'
         })
     }
 
