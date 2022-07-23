@@ -97,7 +97,44 @@ export class AuthController {
             }
         })
         req.session.destroy();
+        res.locals.isAuthenticated = false;
         res.redirect("/");
+    }
+
+    static async getUpdatePassword(req, res, next) {
+        if (!req.session.isLoggedIn) {
+            return res.redirect("/");
+        }
+        res.render('update-password', {
+            path: '/update-password',
+            pageTitle: 'Update Password'
+        })
+    }
+
+    static async updatePassword(req, res, next) {
+        const userId = req.session?.user?.id;
+        if (!req.session.isLoggedIn || !userId) {
+            return res.redirect("/");
+        }
+        const user = await User.findOne({
+            where: {
+                id: userId,
+            }
+        })
+        const isPasswordCorrect = await bcrypt.compare(req.body.currentPassword, user.password);
+        if (isPasswordCorrect && req.body.newPassword) {
+            const hashPassword = await bcrypt.hash(req.body.newPassword, 12);
+            user.password = hashPassword
+            await user.save();
+            await Session.destroy({
+                where: {
+                    userId,
+                }
+            })
+            req.session.destroy();
+            res.locals.isAuthenticated = false;
+        }
+        res.redirect('/login')
     }
 
 }
