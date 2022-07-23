@@ -5,12 +5,19 @@ import bcrypt from 'bcryptjs';
 
 export class AuthController {
     static async getLogin(req, res, next) {
+        let message = req.flash('error');
+        if (message.length > 0) {
+            message = message[0]
+        } else {
+            message = null;
+        }
         if (req.session.isLoggedIn) {
             return res.redirect("/");
         }
         res.render('login', {
             pageTitle: 'Login',
             path: '/login',
+            errorMessage: message
         })
     }
 
@@ -45,6 +52,7 @@ export class AuthController {
             })
             return res.redirect('/')
         } else {
+            req.flash('error', 'Invalid email or password.')
             return res.redirect("/login");
         }
     }

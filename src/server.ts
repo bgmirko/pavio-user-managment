@@ -6,6 +6,7 @@ import session from 'express-session';
 import { authRoutes } from './routes/auth';
 import { likesRoutes } from './routes/likes';
 import csrf from 'csurf';
+import flash from 'connect-flash';
 import { setLocales } from 'middleware/setLocales';
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({ secret: 'my secret', resave: false, saveUninitialized: false }));
 app.use(csrfProtection);
+app.use(flash());
 
 app.use(setLocales)
 
