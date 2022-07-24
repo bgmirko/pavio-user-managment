@@ -2,7 +2,7 @@ import { sequelize } from '../database/sequelize';
 
 const Sequelize = require('sequelize');
 
-const Session = sequelize.define('Like', {
+const Session = sequelize.define('Session', {
     userId: {
         type: Sequelize.INTEGER,
         primaryKey: true,

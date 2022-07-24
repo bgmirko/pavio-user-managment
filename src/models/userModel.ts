@@ -35,15 +35,21 @@ const User = sequelize.define('User', {
         timestamps: true,
         charset: "utf8",
         collate: "utf8_unicode_ci",
-        tableName: "users"
+        tableName: "user"
     }
 )
 
+console.log("1", typeof User);
+
 User.associate = function (models) {
+    console.log("models", models);
     models.User.hasMany(models.Like, {
-        foreignKey: "likeFrom",
-        as: "usersInteracted"
+        foreignKey: "like_from",
+        as: "users"
     })
 }
+
+console.log("2", typeof User);
+console.log("3", sequelize);
 
 export default User;

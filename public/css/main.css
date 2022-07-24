@@ -123,7 +123,7 @@ form {
   color: red;
 }
 
-.me-container {
+.page-container {
   display: flex;
   margin: 50px auto;
   flex-direction: column;
@@ -133,12 +133,55 @@ form {
 
 .about-me-list {
   text-align: left;
-  width: 300px;
+  width: 500px;
   margin: 20px auto;
   padding-left: 30px;
   padding-bottom: 30px;
   list-style-type: none;
   line-height: 30px;
   font-weight: 700;
+}
+
+.page-container-rankings {
+  width: 750px; 
+}
+
+.rankings-list-ul {
+  text-align: left;
+  width: 750px;
+  margin: 20px auto;
+  padding-left: 30px;
+  padding-bottom: 30px;
+  list-style-type: none;
+  line-height: 35px;
+  font-weight: 500;
+}
+
+.rankings-list-row{
+  display: flex;
+}
+
+.ranking-list__user-info{
+  display: inline-block;
+  width: 450px;
+}
+
+.ranking-list__likes{
+  display: inline-block;
+  width: 100px;
+}
+
+.ranking-list__user-options{
+  display: flex;
+  width: 100px;
+}
+
+.btn-likes{
+  padding: 5px, 10px;
+  background: white;
+  border-radius: 2px;
+  font-size: 12px;
+  margin-right: 10px;
+  line-height: 18px;
 }
 

@@ -3,19 +3,29 @@ import { sequelize } from '../database/sequelize';
 const Sequelize = require('sequelize');
 
 const Like = sequelize.define('Like', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
     likeFrom: {
         type: Sequelize.INTEGER,
         foreignKey: true,
+        references: {
+            model: 'user',
+            key: 'id',
+        },
         allowNull: false,
     },
     likeTo: {
         type: Sequelize.INTEGER,
-        foreignKey: true,
         allowNull: false,
     },
     isLiked: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
+        allowNull: true,
+        defaultValue: false,
     },
 },
     {
@@ -23,19 +33,20 @@ const Like = sequelize.define('Like', {
         timestamps: true,
         charset: "utf8",
         collate: "utf8_unicode_ci",
-        tableName: "likes"
+        tableName: "like"
     }
 )
 
-// Like.associate = function (models) {
-//     models.Like.belongsTo(models.User, {
-//         foreignKey: "likeFrom",
-//         as: "userFrom"
-//     })
-//     models.Like.belongsTo(models.User, {
-//         foreignKey: "likeTo",
-//         as: "userTo"
-//     })
-// }
+Like.associate = function (models) {
+    models.Like.belongsTo(models.User, {
+        foreignKey: "like_from",
+        targetKey: "id",
+        as: "likes"
+    })
+    // models.Like.belongsTo(models.User, {
+    //     foreignKey: "likeTo",
+    //     as: "userTo"
+    // })
+}
 
-module.exports = Like;
+export default Like;

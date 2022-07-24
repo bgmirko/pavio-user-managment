@@ -6,5 +6,32 @@
     <body>
         <%- include('includes/navigation.ejs') %>
 
-            <h1>Home page</h1>
-            <%- include('includes/end.ejs') %>
+            <div class="page-container page-container-rankings">
+                <h1>Most Liked</h1>
+                <% if (!isAuthenticated) { %>
+                    <p class="user-message">You have to be login to be able to like user</p>
+                    <% } %>
+                        <ul class="rankings-list-ul">
+                            <% for(user of users) { %>
+                                <li class="rankings-list-row"">
+                                    <div class=" ranking-list__user-info">
+                                    <%= `${user.name}, ${user.email}` %>
+            </div>
+            <div class="ranking-list__likes">
+                Likes: <%= user.likes %>
+            </div>
+            <div class="ranking-list__user-options">
+                <% if (isAuthenticated) { %>
+                    <form action="/user/<%= user.id %>/like" type="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button class="btn btn-likes">Like</button>
+                    </form>
+                    <% } %>
+                        <a href="#">Details</a>
+            </div>
+            </li>
+            <% } %>
+                </ul>
+
+                </div>
+                <%- include('includes/end.ejs') %>
