@@ -123,3 +123,22 @@ form {
   color: red;
 }
 
+.me-container {
+  display: flex;
+  margin: 50px auto;
+  flex-direction: column;
+  width: 500px;
+  text-align: center;
+}
+
+.about-me-list {
+  text-align: left;
+  width: 300px;
+  margin: 20px auto;
+  padding-left: 30px;
+  padding-bottom: 30px;
+  list-style-type: none;
+  line-height: 30px;
+  font-weight: 700;
+}
+

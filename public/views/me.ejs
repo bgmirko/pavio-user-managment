@@ -1,0 +1,25 @@
+<%- include('includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('includes/navigation.ejs') %>
+
+            <div class="me-container">
+                <h1>About Me</h1>
+                <% if (isAuthenticated) { %>
+                    <ul class="about-me-list">
+                        <li>Name: <%= user.name %>
+                        </li>
+                        <li>Email: <%= user.email %>
+                        </li>
+                        <li>Address: <%= user.address %>
+                        </li>
+                        <li>Likes: <%= user.likes %>
+                        </li>
+                    </ul>
+                    <a class="#" href="/update-password">Update Password</a>
+                    <% } else { %>
+                        <p class="user-message">You must be login to see your data</p>
+                        <% } %>
+            </div>
+            <%- include('includes/end.ejs') %>

@@ -3,6 +3,11 @@ import { LikesController } from 'controllers/likesController';
 
 const router = express.Router();
 
+
+router.get('/me', async (req, res) => {
+    await LikesController.getAboutMePage(req, res);
+})
+
 router.get('/user/:id/like', (req, res) => {
     res.send('<h1>Like user</h1>');
 })

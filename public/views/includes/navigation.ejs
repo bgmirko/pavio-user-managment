@@ -3,10 +3,10 @@
     <nav class="main-header__nav">
         <ul class="main-header__item-list">
             <li class="main-header__item">
-                <a class="<%= path === '/most-liked' ? 'active' : '' %>" href="/">User Ranking</a>
+                <a class="<%= path === '/most-liked' ? 'active' : '' %>" href="/">Rankings</a>
             </li>
             <li class="main-header__item">
-                <a class="<%= path === '/user' ? 'active' : '' %>" href="/user">User Details</a>
+                <a class="<%= path === '/me' ? 'active' : '' %>" href="/me">About Me</a>
             </li>
         </ul>
         <ul class="main-header__item-list">
@@ -18,10 +18,6 @@
                     <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
                 </li>
                 <% } else { %>
-                    <li class="main-header__item">
-                        <a class="<%= path === '/update-password' ? 'active' : '' %>" href="/update-password">Update
-                            Password</a>
-                    </li>
                     <li class="main-header__item">
                         <form action="/logout" method="post">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
