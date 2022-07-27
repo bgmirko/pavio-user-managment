@@ -1,5 +1,4 @@
-import User from '../models/userModel';
-import Session from '../models/sessionModel';
+import db from '../models';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -35,7 +34,7 @@ export class AuthController {
     static async postLogin(req, res, next) {
         const email = req.body.email;
         const password = req.body.password;
-        const user = await User.findOne({
+        const user = await db.User.findOne({
             where: {
                 email
             },
@@ -50,7 +49,7 @@ export class AuthController {
             req.session.user = user;
             const jwtExpirySeconds = 300;
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 300 })
-            await Session.create({
+            await db.Session.create({
                 userId: user.id,
                 isLoggedIn: true,
             })
@@ -66,9 +65,8 @@ export class AuthController {
         const email = req.body.email;
         // TODO implement validation
         const password = req.body.password;
-        console.log("password", password);
         const confirmPassword = req.body.confirmPassword;
-        const user = await User.findOne({
+        const user = await db.User.findOne({
             where: {
                 email
             }
@@ -79,7 +77,7 @@ export class AuthController {
         const name = req.body.name;
         const address = req.body.address;
         const hashPassword = await bcrypt.hash(password, 12);
-        await User.create({
+        await db.User.create({
             name,
             email,
             password: hashPassword,
@@ -91,7 +89,7 @@ export class AuthController {
     static async logoutUser(req, res, next) {
         const userId = req.session?.user?.id;
         if (!userId) return;
-        await Session.destroy({
+        await db.Session.destroy({
             where: {
                 userId,
             }
@@ -116,7 +114,7 @@ export class AuthController {
         if (!req.session.isLoggedIn || !userId) {
             return res.redirect("/");
         }
-        const user = await User.findOne({
+        const user = await db.User.findOne({
             where: {
                 id: userId,
             }
@@ -126,7 +124,7 @@ export class AuthController {
             const hashPassword = await bcrypt.hash(req.body.newPassword, 12);
             user.password = hashPassword
             await user.save();
-            await Session.destroy({
+            await db.Session.destroy({
                 where: {
                     userId,
                 }
