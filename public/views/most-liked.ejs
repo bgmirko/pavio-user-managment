@@ -34,7 +34,10 @@
                             </form>
                             <% } %>
                                 <% } %>
-                                    <a href="#">Details</a>
+                                    <form action="/user/<%= user.id %>" type="post">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button class="btn btn-likes">Details</button>
+                                    </form>
             </div>
             </li>
             <% } %>

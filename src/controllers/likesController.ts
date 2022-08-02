@@ -115,4 +115,20 @@ export class LikesController {
         }
         res.redirect('/')
     }
+
+    static async getUserDetails(req, res) {
+        const user = await db.User.findOne({
+            where: {
+                id: req.params.id
+            },
+            raw: true
+        })
+        console.log("user", user);
+        res.render('user-details', {
+            pageTitle: "User Details",
+            path: "/user-details",
+            user: user
+        })
+    }
+
 }
