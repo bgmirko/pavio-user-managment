@@ -23,7 +23,7 @@ export class LikesController {
             })
         }
     }
-    static async getMostLikedUsers(req, res, next) {
+    static async getMostLikedUsers(req, res) {
         const userId = req.session?.user?.id;
 
         let performedLikes;

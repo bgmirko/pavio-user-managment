@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 export class AuthController {
-    static async getLogin(req, res, next) {
+    static async getLogin(req, res) {
         let message = req.flash('error');
         if (message.length > 0) {
             message = message[0]
@@ -21,7 +21,7 @@ export class AuthController {
         })
     }
 
-    static async getSignup(req, res, next) {
+    static async getSignup(req, res) {
         if (req.session.isLoggedIn) {
             return res.redirect("/");
         }
@@ -31,7 +31,7 @@ export class AuthController {
         })
     }
 
-    static async postLogin(req, res, next) {
+    static async postLogin(req, res) {
         const email = req.body.email;
         const password = req.body.password;
         const user = await db.User.findOne({
@@ -61,7 +61,7 @@ export class AuthController {
         }
     }
 
-    static async postSignup(req, res, next) {
+    static async postSignup(req, res) {
         const email = req.body.email;
         // TODO implement validation
         const password = req.body.password;
@@ -86,7 +86,7 @@ export class AuthController {
         res.redirect("/login");
     }
 
-    static async logoutUser(req, res, next) {
+    static async logoutUser(req, res) {
         const userId = req.session?.user?.id;
         if (!userId) return;
         await db.Session.destroy({
@@ -99,7 +99,7 @@ export class AuthController {
         res.redirect("/");
     }
 
-    static async getUpdatePassword(req, res, next) {
+    static async getUpdatePassword(req, res) {
         if (!req.session.isLoggedIn) {
             return res.redirect("/");
         }
@@ -109,7 +109,7 @@ export class AuthController {
         })
     }
 
-    static async updatePassword(req, res, next) {
+    static async updatePassword(req, res) {
         const userId = req.session?.user?.id;
         if (!req.session.isLoggedIn || !userId) {
             return res.redirect("/");

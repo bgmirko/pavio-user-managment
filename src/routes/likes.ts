@@ -20,7 +20,7 @@ router.get('/user/:id/unlike', async (req, res) => {
 })
 
 router.get('/most-liked', async (req, res, next) => {
-    await LikesController.getMostLikedUsers(req, res, next);
+    await LikesController.getMostLikedUsers(req, res);
 })
 
 export const likesRoutes = router;
