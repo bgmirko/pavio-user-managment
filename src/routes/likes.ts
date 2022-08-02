@@ -16,8 +16,9 @@ router.post('/user/:id/', (req, res) => {
     res.send('<h1>Like user</h1>');
 })
 
-router.post('/user/:id/unlike', (req, res) => {
-    res.send('<h1>User unlike</h1>');
+router.get('/user/:id/unlike', async (req, res) => {
+    console.log("---- prolaz 1")
+    await LikesController.unlikeUser(req, res);
 })
 
 router.get('/most-liked', async (req, res, next) => {

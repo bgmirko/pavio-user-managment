@@ -21,13 +21,20 @@
                 Likes: <%= user.likes %>
             </div>
             <div class="ranking-list__user-options">
-                <% if (isAuthenticated) { %>
-                    <form action="/user/<%= user.id %>/like" type="post">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <button class="btn btn-likes">Like</button>
-                    </form>
-                    <% } %>
-                        <a href="#">Details</a>
+                <% if (isAuthenticated && loggedUserId !==user.id) { %>
+                    <% if (!user.isUserLikedUser) { %>
+                        <form action="/user/<%= user.id %>/like" type="post">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="btn btn-likes">Like</button>
+                        </form>
+                        <% } else { %>
+                            <form action="/user/<%= user.id %>/unlike" type="post">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button class="btn btn-likes">Unlike</button>
+                            </form>
+                            <% } %>
+                                <% } %>
+                                    <a href="#">Details</a>
             </div>
             </li>
             <% } %>

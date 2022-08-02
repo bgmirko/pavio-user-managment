@@ -27,7 +27,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
         static associate(models: any) {
             // definition of association
             User.hasMany(models.Like, {
-                foreignKey: 'like_from'
+                foreignKey: 'like_from',
+                as: 'likeAction'
             })
             User.hasOne(models.Session, {
                 foreignKey: 'user_id'
