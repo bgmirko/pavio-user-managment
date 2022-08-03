@@ -1,6 +1,6 @@
 import db from '../models';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { UserService } from "../domain/userService";
 
 
 export class AuthController {
@@ -33,26 +33,16 @@ export class AuthController {
 
     static async postLogin(req, res) {
         const email = req.body.email;
-        const password = req.body.password;
-        const user = await db.User.findOne({
-            where: {
-                email
-            },
-            raw: true
-        })
+        const enteredPassword = req.body.password;
+        const jwtExpirySeconds = 300;
+        const user = await UserService.findUserByEmail(email);
         if (!user) {
             return res.redirect("/login");
         }
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
-        if (isPasswordCorrect) {
+        const { success, token } = await UserService.loginUser(enteredPassword, user, jwtExpirySeconds)
+        if (success) {
             req.session.isLoggedIn = true;
             req.session.user = user;
-            const jwtExpirySeconds = 300;
-            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 300 })
-            await db.Session.create({
-                userId: user.id,
-                isLoggedIn: true,
-            })
             res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
             return res.redirect('/')
         } else {
@@ -66,11 +56,7 @@ export class AuthController {
         // TODO implement validation
         const password = req.body.password;
         const confirmPassword = req.body.confirmPassword;
-        const user = await db.User.findOne({
-            where: {
-                email
-            }
-        })
+        const user = await UserService.findUserByEmail(email);
         if (user) {
             return res.redirect('/signup');
         }
@@ -114,21 +100,8 @@ export class AuthController {
         if (!req.session.isLoggedIn || !userId) {
             return res.redirect("/");
         }
-        const user = await db.User.findOne({
-            where: {
-                id: userId,
-            }
-        })
-        const isPasswordCorrect = await bcrypt.compare(req.body.currentPassword, user.password);
-        if (isPasswordCorrect && req.body.newPassword) {
-            const hashPassword = await bcrypt.hash(req.body.newPassword, 12);
-            user.password = hashPassword
-            await user.save();
-            await db.Session.destroy({
-                where: {
-                    userId,
-                }
-            })
+        const updatePasswordSuccess = await UserService.updatePassword(userId, req.session?.user?.email, req.body.currentPassword, req.session?.user?.password, req.body.newPassword);
+        if (updatePasswordSuccess) {
             req.session.destroy();
             res.locals.isAuthenticated = false;
         }

@@ -5,20 +5,16 @@
         <%- include('includes/navigation.ejs') %>
 
             <div class="page-container">
-                <h1>About Me</h1>
-                <% if (isAuthenticated) { %>
-                    <ul class="about-me-list">
-                        <li>Name: <%= user.name %>
-                        </li>
-                        <li>Email: <%= user.email %>
-                        </li>
-                        <li>Address: <%= user.address %>
-                        </li>
-                        <li>Likes: <%= user.likes %>
-                        </li>
-                    </ul>
-                    <% } else { %>
-                        <p class="user-message">You must be login to see your data</p>
-                        <% } %>
+                <h1>User Details</h1>
+                <ul class="about-me-list">
+                    <li>Name: <%= user.name %>
+                    </li>
+                    <li>Email: <%= user.email %>
+                    </li>
+                    <li>Address: <%= user.address %>
+                    </li>
+                    <li>Likes: <%= user.likes %>
+                    </li>
+                </ul>
             </div>
             <%- include('includes/end.ejs') %>
