@@ -51,7 +51,7 @@ export class LikesService {
         }
     }
 
-    static async getMostLikedUsers(userId: number): Promise<any> {
+    static async getMostLikedUsers(userId?: number): Promise<any> {
         let performedLikes;
         // if user is logged in
         if (userId) {
