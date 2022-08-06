@@ -28,23 +28,11 @@ export class LikesService {
     }
 
     static async unlikeUser(unlikeFromUserId: number, unlikeToUserId: number) {
-        let user2 = await db.User.findOne({
-            where: {
-                id: 2,
-            },
-            raw: true,
-        })
         await db.User.decrement('likes', {
             by: 1,
             where: {
                 id: unlikeToUserId
             }
-        })
-        user2 = await db.User.findOne({
-            where: {
-                id: 2,
-            },
-            raw: true,
         })
         const [like, created] = await db.Like.findOrCreate({
             where: {
