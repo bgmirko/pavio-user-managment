@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-console.log("log is config js fajla", process.env.DB_PASSWORD)
-
 module.exports = {
   "development": {
     "username": process.env.DB_USER,
@@ -11,10 +9,11 @@ module.exports = {
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.TEST_DATABASE,
+    "host": process.env.TEST_DB_HOST,
+    "port": process.env.TEST_DB_PORT,
     "dialect": "postgres"
   },
   "production": {
