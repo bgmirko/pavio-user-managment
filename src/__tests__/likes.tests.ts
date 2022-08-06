@@ -60,6 +60,4 @@ describe("Likes Management", () => {
         const user = await LikesService.getUserData(1);
         expect(user.name === "User 1").toBeTruthy();
     })
-
-
 }) 

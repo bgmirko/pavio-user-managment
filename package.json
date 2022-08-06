@@ -17,7 +17,7 @@
     "sequelize": "^6.21.3"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "rm -rf dist && ttsc && cp -R ./public ./dist/public",
     "dev": "NODE_PATH=src nodemon --watch src -e ts --exec ts-node -r dotenv/config src/server.ts",
     "start": "node dist/server.js"
