@@ -8,43 +8,76 @@ export class LikesController {
         const userId = req.session?.user?.id;
         if (userId) {
             const user = await LikesService.getUserData(userId);
-            res.render('me', {
-                pageTitle: "About Me",
-                path: "/me",
-                user: user
+            res.json({
+                code: 200,
+                success: true,
+                data: user,
+                message: "User data fetch successfully"
             })
         } else {
-            res.render('me', {
-                pageTitle: "About Me",
-                path: "/me",
+            res.json({
+                code: 400,
+                success: false,
+                message: "UserId missing"
             })
         }
     }
     static async getMostLikedUsers(req, res) {
         const userId = req.session?.user?.id;
-
-        const usersLikes = await LikesService.getMostLikedUsers(userId);
-
-        res.render('most-liked', {
-            pageTitle: "Rankings",
-            path: "/most-liked",
-            users: usersLikes,
-            loggedUserId: userId,
-        })
+        try {
+            const usersLikes = await LikesService.getMostLikedUsers(userId);
+            res.json({
+                code: 100,
+                success: true,
+                data: usersLikes,
+                message: "Most liked users fetch successfully",
+            })
+        } catch (error) {
+            res.json({
+                code: error?.code ?? 400,
+                success: false,
+                message: error.message,
+            })
+        }
     }
 
     static async likeUser(req, res) {
         const likeFromUserId = req.session.user.id;
         const likeToUserId = req.params.id;
-        await LikesService.likeUser(likeFromUserId, likeToUserId)
-        res.redirect('/')
+
+        try {
+            await LikesService.likeUser(likeFromUserId, likeToUserId)
+            res.json({
+                code: 100,
+                success: true,
+                message: "User liked successfully",
+            })
+        } catch (error) {
+            res.json({
+                code: error?.code ?? 400,
+                success: false,
+                message: error.message,
+            })
+        }
     }
 
     static async unlikeUser(req, res) {
         const unlikeFromUserId = req.session.user.id;
         const unlikeToUserId = req.params.id;
-        await LikesService.unlikeUser(unlikeFromUserId, unlikeToUserId);
-        res.redirect('/')
+        try {
+            await LikesService.unlikeUser(unlikeFromUserId, unlikeToUserId);
+            res.json({
+                code: 100,
+                success: true,
+                message: "User unliked successfully",
+            })
+        } catch (error) {
+            res.json({
+                code: error?.code ?? 400,
+                success: false,
+                message: error.message,
+            })
+        }
     }
 
     static async getUserDetails(req, res) {
@@ -54,11 +87,20 @@ export class LikesController {
             },
             raw: true
         })
-        res.render('user-details', {
-            pageTitle: "User Details",
-            path: "/user-details",
-            user: user
-        })
+        if (user) {
+            res.json({
+                code: 100,
+                success: true,
+                data: user,
+                message: "User fetch successfully",
+            })
+        } else {
+            res.json({
+                code: 400,
+                success: false,
+                message: "User not found",
+            })
+        }
     }
 
 }

@@ -4,33 +4,6 @@ import { UserService } from "../domain/userService";
 
 
 export class AuthController {
-    static async getLogin(req, res) {
-        let message = req.flash('error');
-        if (message.length > 0) {
-            message = message[0]
-        } else {
-            message = null;
-        }
-        if (req.session.isLoggedIn) {
-            return res.redirect("/");
-        }
-        res.render('login', {
-            pageTitle: 'Login',
-            path: '/login',
-            errorMessage: message
-        })
-    }
-
-    static async getSignup(req, res) {
-        if (req.session.isLoggedIn) {
-            return res.redirect("/");
-        }
-        res.render('signup', {
-            path: '/signup',
-            pageTitle: 'Signup'
-        })
-    }
-
     static async postLogin(req, res) {
         const email = req.body.email;
         const enteredPassword = req.body.password;
@@ -44,10 +17,20 @@ export class AuthController {
             req.session.isLoggedIn = true;
             req.session.user = user;
             res.cookie("token", token, { maxAge: jwtExpirySeconds * 1000 })
-            return res.redirect('/')
+            res.json({
+                code: 200,
+                success: true,
+                data: {
+                    token
+                },
+                message: "User login successfully"
+            })
         } else {
-            req.flash('error', 'Invalid email or password.')
-            return res.redirect("/login");
+            res.json({
+                code: 401,
+                success: false,
+                message: "Invalid email or password"
+            })
         }
     }
 
@@ -58,7 +41,11 @@ export class AuthController {
         const confirmPassword = req.body.confirmPassword;
         const user = await UserService.findUserByEmail(email);
         if (user) {
-            return res.redirect('/signup');
+            res.json({
+                code: 406,
+                success: false,
+                message: "User already exists"
+            })
         }
         const name = req.body.name;
         const address = req.body.address;
@@ -69,43 +56,63 @@ export class AuthController {
             password: hashPassword,
             address,
         })
-        res.redirect("/login");
+        res.json({
+            code: 200,
+            success: true,
+            message: "User created successfully"
+        })
     }
 
     static async logoutUser(req, res) {
         const userId = req.session?.user?.id;
-        if (!userId) return;
-        await db.Session.destroy({
-            where: {
-                userId,
-            }
-        })
-        req.session.destroy();
-        res.locals.isAuthenticated = false;
-        res.redirect("/");
-    }
-
-    static async getUpdatePassword(req, res) {
-        if (!req.session.isLoggedIn) {
-            return res.redirect("/");
+        if (!userId) {
+            res.json({
+                code: 404,
+                success: false,
+                message: "User not found"
+            })
+        };
+        try {
+            await db.Session.destroy({
+                where: {
+                    userId,
+                }
+            })
+            req.session.destroy();
+            res.locals.isAuthenticated = false;
+            res.json({
+                code: 200,
+                success: true,
+                message: "User logout successfully"
+            })
+        } catch (e) {
+            res.json({
+                code: 500,
+                success: false,
+                message: "Server internal error"
+            })
         }
-        res.render('update-password', {
-            path: '/update-password',
-            pageTitle: 'Update Password'
-        })
     }
 
     static async updatePassword(req, res) {
         const userId = req.session?.user?.id;
-        if (!req.session.isLoggedIn || !userId) {
-            return res.redirect("/");
+        if (!req.session.isLoggedIn || !userId || !req.session?.user) {
+            return res.json({
+                code: 400,
+                success: false,
+                message: "User not found"
+            })
         }
         const updatePasswordSuccess = await UserService.updatePassword(userId, req.session?.user?.email, req.body.currentPassword, req.session?.user?.password, req.body.newPassword);
         if (updatePasswordSuccess) {
             req.session.destroy();
             res.locals.isAuthenticated = false;
         }
-        res.redirect('/login')
+        return res.json({
+            code: 200,
+            success: true,
+            message: "Password updated successfully"
+        })
     }
 
 }

@@ -4,11 +4,12 @@ import db from "./models";
 
 const PORT = process.env.PORT || 3000;
 
-db.sequelize.sync()
+db.sequelize.sync({ force: true })
     .then(async result => {
         app.listen(PORT, () => {
             console.log(`app running on port ${PORT}`)
         })
+
         // clear table data on server restart
         // await Session.destroy({ truncate: true })
     })
