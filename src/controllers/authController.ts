@@ -10,7 +10,11 @@ export class AuthController {
         const jwtExpirySeconds = 300;
         const user = await UserService.findUserByEmail(email);
         if (!user) {
-            return res.redirect("/login");
+            res.json({
+                code: 404,
+                success: false,
+                message: "Invalid email or password"
+            })
         }
         const { success, token } = await UserService.loginUser(enteredPassword, user, jwtExpirySeconds)
         if (success) {

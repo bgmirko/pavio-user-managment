@@ -42,9 +42,15 @@ export class LikesController {
     }
 
     static async likeUser(req, res) {
-        const likeFromUserId = req.session.user.id;
+        const likeFromUserId = req.session?.user?.id;
         const likeToUserId = req.params.id;
-
+        if (!likeFromUserId) {
+            return res.json({
+                code: 400,
+                success: false,
+                message: "You must be login to like user"
+            })
+        }
         try {
             await LikesService.likeUser(likeFromUserId, likeToUserId)
             res.json({
@@ -64,6 +70,13 @@ export class LikesController {
     static async unlikeUser(req, res) {
         const unlikeFromUserId = req.session.user.id;
         const unlikeToUserId = req.params.id;
+        if (!unlikeFromUserId) {
+            return res.json({
+                code: 400,
+                success: false,
+                message: "You must be login to unlike user"
+            })
+        }
         try {
             await LikesService.unlikeUser(unlikeFromUserId, unlikeToUserId);
             res.json({
@@ -102,5 +115,4 @@ export class LikesController {
             })
         }
     }
-
 }
